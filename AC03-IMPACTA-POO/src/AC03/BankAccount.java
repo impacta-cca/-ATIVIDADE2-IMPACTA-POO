@@ -1,16 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package AC03;
 
-/**
- *
- * @author anacris
- */
 public class BankAccount {
-
     private int accountNumber;
     private String password;
     private String owner;
@@ -22,7 +12,7 @@ public class BankAccount {
         this.owner = owner;
         this.balance = balance;
     }
-    
+
     public int getAccountNumber() {
         return accountNumber;
     }
@@ -38,7 +28,7 @@ public class BankAccount {
     public double getBalance() {
         return balance;
     }
- 
+
     /**
      * Deposita dinheiro nesta conta
      * (Pós-condição: getBalance() >= 0.0)
@@ -50,17 +40,17 @@ public class BankAccount {
         double newBalance = balance + amount;
         balance = newBalance;
     }
-   
+
     void withDraw(double amount) {
         //Evitar efeitos colaterais
         double newBalance = balance - amount;
-         balance = newBalance;
+        balance = newBalance;
     }
 
     @Override
     public String toString() {
         return "BankAccount{" + "accountNumber=" + accountNumber +
-                ", password=" + password + ", owner=" + owner + 
+                ", password=" + password + ", owner=" + owner +
                 ", balance=" + balance + '}';
     }
 
@@ -80,4 +70,6 @@ public class BankAccount {
         this.password = conta.getPassword();
 
     }
+
+
 }
