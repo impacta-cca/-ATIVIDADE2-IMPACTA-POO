@@ -5,9 +5,7 @@
  */
 package AC03;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,7 +15,7 @@ import java.util.logging.Logger;
  * @author anacris
  */
 public class Bank {
-    private ArrayList<BankAccount> accounts; //vetor de contas
+    private ArrayList<BankAccount2> accounts; //vetor de contas
 
     public Bank() {
         accounts = new ArrayList<>(); //criando um vetor dinâmico indexado     
@@ -33,7 +31,7 @@ public class Bank {
             for (int i = 0; i < n; i++) {
                 linha = r.readLine();
                 linhas = linha.split("#");
-                BankAccount conta = new BankAccount(
+                BankAccount2 conta = new BankAccount2(
                         Integer.parseInt(linhas[0]),
                         linhas[1],
                         linhas[2],
@@ -48,13 +46,13 @@ public class Bank {
     }
 
 
-    public void addAccount(BankAccount bankAccount) {
+    public void addAccount(BankAccount2 bankAccount) {
         //Insere uma conta no vetor de contas
         accounts.add(bankAccount); //insere no final
 
     }
 
-    public ArrayList<BankAccount> getAccounts() {
+    public ArrayList<BankAccount2> getAccounts() {
         return accounts;
     }
 
@@ -62,7 +60,7 @@ public class Bank {
     public double getTotalBalance() {
         double soma = 0.0;
         for (int i = 0; i < accounts.size(); i++) {
-            BankAccount conta = accounts.get(i);
+            BankAccount2 conta = accounts.get(i);
             soma = soma + conta.getBalance();
         }
         return soma;
@@ -71,23 +69,23 @@ public class Bank {
     //Calcular o saldo total de todas as contas inseridas no banco
     public double getTotalBalance2() {
         double soma = 0.0;
-        for (BankAccount conta : accounts) {
+        for (BankAccount2 conta : accounts) {
             soma = soma + conta.getBalance();
         }
         return soma;
     }
 
     //Devolve a conta vinculada a um número dado
-    public BankAccount find(int accountNumber) {
-        for (BankAccount conta : accounts)
+    public BankAccount2 find(int accountNumber) {
+        for (BankAccount2 conta : accounts)
             if (conta.getAccountNumber() == accountNumber)
                 return conta; //Achei
         return null;//Não achei
     }
 
     //Devolve a conta com o maior saldo
-    public BankAccount getMaximum() {
-        BankAccount maior = accounts.get(0);
+    public BankAccount2 getMaximum() {
+        BankAccount2 maior = accounts.get(0);
         for (int i = 1; i < accounts.size(); i++)
             if (accounts.get(i).getBalance() > maior.getBalance())
                 maior = accounts.get(i);
@@ -95,9 +93,9 @@ public class Bank {
     }
 
     //Devolve a conta com o maior saldo
-    public BankAccount getMaximum2() {
-        BankAccount maior = accounts.get(0);
-        for (BankAccount conta : accounts) //percorre tudo, desde a posição 0
+    public BankAccount2 getMaximum2() {
+        BankAccount2 maior = accounts.get(0);
+        for (BankAccount2 conta : accounts) //percorre tudo, desde a posição 0
             if (conta.getBalance() > maior.getBalance())
                 maior = conta;
         return maior;
@@ -106,7 +104,7 @@ public class Bank {
     //Devolve o número de contas com saldo igual ou superior a um limite
     public int count(double limit) {
         int cont = 0;
-        for (BankAccount conta : accounts)
+        for (BankAccount2 conta : accounts)
             if (conta.getBalance() >= limit)
                 cont++;
         return cont;
@@ -114,10 +112,10 @@ public class Bank {
 
     // Remove usando número da conta
     public void removeAccount(int accountNumber) {
-        for (BankAccount conta : this.accounts) {
+        for (BankAccount2 conta : this.accounts) {
             if (conta.getAccountNumber() == accountNumber) {
                 int index = this.accounts.indexOf(conta);
-                BankAccount removed = this.accounts.remove(index);
+                BankAccount2 removed = this.accounts.remove(index);
                 System.out.println("Conta:" + removed.getAccountNumber() + "removida com sucesso");
                 break;
             }
@@ -125,8 +123,8 @@ public class Bank {
     }
 
     // Remove usando isntância da conta
-    public void removeAccount(BankAccount account) {
-        for (BankAccount conta : this.accounts) {
+    public void removeAccount(BankAccount2 account) {
+        for (BankAccount2 conta : this.accounts) {
             if (conta.equals(account)) {
                 this.accounts.remove(conta);
                 System.out.println("Conta:" + account.getAccountNumber() + "removida com sucesso");
@@ -138,7 +136,7 @@ public class Bank {
     @Override
     public String toString() {
         String acumuladora = "";
-        for (BankAccount conta : this.getAccounts()) {
+        for (BankAccount2 conta : this.getAccounts()) {
             acumuladora += conta.toString() + "\n";
         }
         return acumuladora;
@@ -148,16 +146,56 @@ public class Bank {
     // Ordena contas do banco a partir do número da conta
     public void sort() {
         for (int i = 1; i < accounts.size(); i++) {
-            BankAccount aux = accounts.get(i);            
+            BankAccount2 aux = new BankAccount2(accounts.get(i).getAccountNumber(), accounts.get(i).getPassword(), accounts.get(i).getOwner(), accounts.get(i).getBalance());
             int j = i;
             while ((j > 0) && (accounts.get(j - 1).getAccountNumber() > aux.getAccountNumber())) {
-                BankAccount s = accounts.get(j - 1);
+                BankAccount2 s = accounts.get(j - 1);
                 accounts.get(j).swap(s);
-                j -= 1;
+                j = j - 1;
             }
             accounts.get(j).swap(aux);
         }
     }
+
+
+    // Recebe nome do arquivo e
+    public void dump(String filename) {
+        try {
+             FileWriter arq = new FileWriter(filename);
+             PrintWriter out = new PrintWriter(arq);
+             /*
+             Conta número: <numero da conta>
+             Senha: <senha da conta>
+             Proprietário: <nome do proprietário>
+             Saldo: <saldo da conta>
+             */
+            for(BankAccount2 conta : this.accounts){
+                out.printf("Conta número: " + Integer.toString(conta.getAccountNumber())+  "\n"+
+                            "Senha: " + conta.getPassword()+ "\n"+
+                            "Proprietário: "+ conta.getOwner()+"\n"+
+                            "Saldo: " + Double.toString(conta.getBalance()) +"\n");
+                out.flush();
+            }
+            out.println();
+            out.flush();
+            out.close();
+        } catch (IOException ex) {
+            Logger.getLogger(Bank.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+
+
+    public void ChangeAccount(BankAccount2 conta){
+        for(BankAccount2 contas : this.accounts){
+            if(contas.getAccountNumber() == conta.getAccountNumber()){
+                contas.swap(conta);
+                System.out.println("Alteração realizada com sucesso");
+                break;
+            }
+        }
+    }
+
 }
 
 

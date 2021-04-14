@@ -1,4 +1,13 @@
-3
-123#567#Marcos Roberto#500.0
-145#999#Maria Clara#480.0
-179#555#Lucas Lima#120.0
+Conta número: 123
+Senha: 567
+Proprietário: Marcos Roberto
+Saldo: 500.0
+Conta número: 145
+Senha: 999
+Proprietário: Maria Clara
+Saldo: 480.0
+Conta número: 179
+Senha: 555
+Proprietário: Lucas Lima
+Saldo: 120.0
+
