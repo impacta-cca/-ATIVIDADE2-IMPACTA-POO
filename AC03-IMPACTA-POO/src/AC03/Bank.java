@@ -39,7 +39,6 @@ public class Bank {
                 this.addAccount(conta);
             }
             r.close();
-
         } catch (IOException ex) {
             Logger.getLogger(Bank.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -115,7 +114,6 @@ public class Bank {
             if (conta.getAccountNumber() == accountNumber) {
                 int index = this.accounts.indexOf(conta);
                 BankAccount2 removed = this.accounts.remove(index);
-                System.out.println("Conta:" + removed.getAccountNumber() + "removida com sucesso");
                 break;
             }
         }
@@ -126,7 +124,6 @@ public class Bank {
         for (BankAccount2 conta : this.accounts) {
             if (conta.equals(account)) {
                 this.accounts.remove(conta);
-                System.out.println("Conta:" + account.getAccountNumber() + "removida com sucesso");
                 break;
             }
         }
@@ -183,11 +180,10 @@ public class Bank {
     }
 
 
-    public void ChangeAccount(BankAccount2 conta){
+    public void changeAccount(BankAccount2 conta){
         for(BankAccount2 contas : this.accounts){
             if(contas.getAccountNumber() == conta.getAccountNumber()){
                 contas.swap(conta);
-                System.out.println("Alteração realizada com sucesso!");
                 break;
             }
         }
