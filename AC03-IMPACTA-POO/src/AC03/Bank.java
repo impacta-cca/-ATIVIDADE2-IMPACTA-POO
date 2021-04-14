@@ -27,7 +27,7 @@ public class Bank {
             BufferedReader r = new BufferedReader(new FileReader(filename));
             String linha = r.readLine();
             int n = Integer.parseInt(linha);
-            String linhas[] = new String[n];
+            String[] linhas;
             for (int i = 0; i < n; i++) {
                 linha = r.readLine();
                 linhas = linha.split("#");
@@ -59,8 +59,7 @@ public class Bank {
     //Calcular o saldo total de todas as contas inseridas no banco
     public double getTotalBalance() {
         double soma = 0.0;
-        for (int i = 0; i < accounts.size(); i++) {
-            BankAccount2 conta = accounts.get(i);
+        for (BankAccount2 conta : accounts) {
             soma = soma + conta.getBalance();
         }
         return soma;
@@ -135,11 +134,11 @@ public class Bank {
 
     @Override
     public String toString() {
-        String acumuladora = "";
+        StringBuilder acumuladora = new StringBuilder();
         for (BankAccount2 conta : this.getAccounts()) {
-            acumuladora += conta.toString() + "\n";
+            acumuladora.append(conta.toString()).append("\n");
         }
-        return acumuladora;
+        return acumuladora.toString();
     }
 
 
@@ -158,7 +157,7 @@ public class Bank {
     }
 
 
-    // Recebe nome do arquivo e
+    // Recebe nome do arquivo e escreve atributos das contas
     public void dump(String filename) {
         try {
              FileWriter arq = new FileWriter(filename);
@@ -170,14 +169,13 @@ public class Bank {
              Saldo: <saldo da conta>
              */
             for(BankAccount2 conta : this.accounts){
-                out.printf("Conta número: " + Integer.toString(conta.getAccountNumber())+  "\n"+
+                out.printf("Conta número: " + conta.getAccountNumber() +  "\n"+
                             "Senha: " + conta.getPassword()+ "\n"+
                             "Proprietário: "+ conta.getOwner()+"\n"+
-                            "Saldo: " + Double.toString(conta.getBalance()) +"\n");
+                            "Saldo: " + conta.getBalance() +"\n");
+                out.println();
                 out.flush();
             }
-            out.println();
-            out.flush();
             out.close();
         } catch (IOException ex) {
             Logger.getLogger(Bank.class.getName()).log(Level.SEVERE, null, ex);
@@ -185,17 +183,15 @@ public class Bank {
     }
 
 
-
     public void ChangeAccount(BankAccount2 conta){
         for(BankAccount2 contas : this.accounts){
             if(contas.getAccountNumber() == conta.getAccountNumber()){
                 contas.swap(conta);
-                System.out.println("Alteração realizada com sucesso");
+                System.out.println("Alteração realizada com sucesso!");
                 break;
             }
         }
     }
-
 }
 
 
